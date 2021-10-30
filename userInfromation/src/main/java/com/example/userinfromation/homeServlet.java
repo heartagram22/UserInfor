@@ -1,38 +1,27 @@
-package com.example.simplepoject;
+package com.example.userinfromation;
 
-import java.io.*;
+import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
+import java.io.IOException;
+import java.io.PrintWriter;
 
-@WebServlet("/Home")
+@WebServlet(name = "homeServlet", value = "/homeServlet")
 public class homeServlet extends HttpServlet {
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String language = request.getParameter("language") == null ? "Unknown" : request.getParameter("language");
+        String firstName = request.getParameter("firstName") == null ? "Unknown" : request.getParameter("firstName");
+        String lastName = request.getParameter("lastName") == null ? "Unknown" : request.getParameter("lastName");
+        String hometown = request.getParameter("hometown") == null ? "Unknown" : request.getParameter("hometown");
         response.setContentType("text/html");
-        String firstName = request.getParameter("firstName");
-        if(firstName ==  null){
-            request.getParameter("Unknown");
-        }
-        String lastName = request.getParameter("lastName") ;
-        if(lastName ==  null){
-            request.getParameter("Unknown");
-        }
-        String language = request.getParameter("language");
-        if(language ==  null){
-            request.getParameter("Unknown");
-        }
-        String hometown = request.getParameter("hometown");
-        if(hometown ==  null){
-            request.getParameter("Unknown");
-        }
-
         PrintWriter out = response.getWriter();
-        out.println("<html><body>");
+        String header = "<h1>Welcome, " + firstName + " " + lastName +  " "+" </h1>";
+        String body1 = "<h2>Your Favorite language is " + language + "</h2>";
+        String body2 = "<h2>Your Hometown is " + hometown + "</h2>";
+        String markup = "<div>" + header + body1 + body2 + "</div>";
+        int x = Integer.parseInt("2");
+        out.write(markup);
+    }
 
-        out.println("<h1>Welcome, " + firstName + " " + lastName +  "  "+" </h1>");
-        out.println("<h2>Your Favorite language is : " + language + "</h2>");
-        out.println("<h2>Your Hometown is : " + hometown + "</h2>");
-        out.println("</body></html>");
-    }
-    public void destroy() {
-    }
 }
